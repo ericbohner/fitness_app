@@ -1,0 +1,107 @@
+Screen1:
+
+<Screen1>:
+    MDNavigationLayout:
+
+        ScreenManager:
+            id: screen_manager
+
+            Screen:
+                name: "Workout Screen"
+
+                BoxLayout:
+                    orientation: "vertical"
+
+                    MDTopAppBar:
+                        title: "Workout"
+                        anchor_title: "left"
+                        right_action_items:
+                            [["menu", lambda x: nav_drawer.set_state("open")]]
+
+                    MDGridLayout:
+                        cols: 1
+                        padding: "15dp"
+                        spacing: "10dp"
+
+                        MDBoxLayout:
+                            spacing: "25dp"
+                            size_hint: 1, None
+                            height: "50dp"
+
+                            MDFillRoundFlatIconButton:
+                                id: week
+                                icon: "calendar-week"
+                                text: "Week"
+                                on_release: root.week_open_menu(self)
+                            MDFillRoundFlatIconButton:
+                                id: day
+                                icon: "calendar-today"
+                                text: "Day"
+                                on_release: root.day_open_menu(self)
+                            MDLabel:
+                                text: "Week: " + root.week_selection + " Day: " + root.day_selection
+
+                        DataTable:
+                            id: data_table
+
+                        MDBoxLayout:
+                            spacing: "25dp"
+                            size_hint: 1, None
+                            height: "60dp"
+
+                            MDFillRoundFlatIconButton:
+                                id: timer_start_reset
+                                icon: "timer-alert-outline"
+                                text: "Start / Reset Timer"
+                                halign: 'center'
+                                on_release: root.start_reset_stopwatch()
+                            MDLabel:
+                                id: stopwatch_lbl
+                                text: root.stopwatch_time
+                                halign: 'center'
+                                valign: 'center'
+
+            Screen2:
+
+        MDNavigationDrawer:
+            id: nav_drawer
+
+            MDNavigationDrawerMenu:
+
+                MDNavigationDrawerHeader:
+                    title: "Workout App"
+
+                MDNavigationDrawerItem:
+                    icon: "arm-flex-outline"
+                    text: "Maxes"
+                    focus_color: "#A69282"
+                    text_color: "#E2DCD7"
+                    icon_color: "#E2DCD7"
+                    ripple_color: "#c5bdd2"
+                    selected_color: "#0c6c4d"
+                    on_release:
+                        screen_manager.current = "Maxes Screen"
+                        nav_drawer.set_state("close")
+
+                MDNavigationDrawerItem:
+                    icon: "weight-lifter"
+                    text: "Workout"
+                    focus_color: "#A69282"
+                    text_color: "#E2DCD7"
+                    icon_color: "#E2DCD7"
+                    ripple_color: "#c5bdd2"
+                    selected_color: "#0c6c4d"
+                    on_release:
+                        screen_manager.current = "Workout Screen"
+                        nav_drawer.set_state("close")
+
+
+<Screen2>:
+    name: "Maxes Screen"
+    BoxLayout:
+        padding: "10dp"
+        MDFillRoundFlatButton:
+            text: "Go Back"
+            on_release:
+                root.manager.transition.direction = "right"
+                root.manager.current = "Workout Screen"
